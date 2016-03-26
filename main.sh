@@ -29,7 +29,8 @@ while true; do
 	
 	ledDetected=`gpio read 0` # GPIO. 0, physical pin 11
 	if [ $ledDetected == 1 ]; then
-		return=`curl -i -H "Accept: text/plain" -H "Content-Type: text/plain" -X GET http://demo8311547.mockable.io/led`
+		#return=`curl -i -H "Accept: text/plain" -H "Content-Type: text/plain" -X GET http://demo8311547.mockable.io/led`
+		return=`curl -i -H "Accept: Application/json" -H "Content-Type: Application/json" -X GET http://sontieu.pythonanywhere.com/led`
 		echo "GET led return = $return"
 		ledstatus=$(echo $return | grep "ledon" | wc -l)
 		ledsmart=$(echo $return | grep "smarton" | wc -l)
@@ -58,22 +59,22 @@ while true; do
 		gpio write $ledout 0
     fi
 
-	return=`curl -i -H "Accept: text/plain" -H "Content-Type: text/plain" -X GET http://demo8311547.mockable.io/alarm`
-	echo "GET alarm return = $return"
-	alarmstatus=$(echo $return | grep "alarmon" | wc -l)
-	PIRSensorInValue=`gpio read $PIRSensorIn`
-	echo "========= alarmtatus = $alarmstatus, PIRSensorInValue = $PIRSensorInValue ======"
+	#return=`curl -i -H "Accept: text/plain" -H "Content-Type: text/plain" -X GET http://demo8311547.mockable.io/alarm`
+	#echo "GET alarm return = $return"
+	#alarmstatus=$(echo $return | grep "alarmon" | wc -l)
+	#PIRSensorInValue=`gpio read $PIRSensorIn`
+	#echo "========= alarmtatus = $alarmstatus, PIRSensorInValue = $PIRSensorInValue ======"
 
-	if [ $alarmstatus == 1 ]; then
-		if [ $PIRSensorInValue == $DETECTED ]; then	
-			gpio write $hornOut $HORN_ON
-		else
-			gpio write $hornOut $HORN_ON
-		fi
-	else
-		gpio write $hornOut $HORN_ON
-	fi
+	#if [ $alarmstatus == 1 ]; then
+	#	if [ $PIRSensorInValue == $DETECTED ]; then	
+	#		gpio write $hornOut $HORN_ON
+	#	else
+	#		gpio write $hornOut $HORN_ON
+	#	fi
+	#else
+	#	gpio write $hornOut $HORN_ON
+	#fi
 	
-	sleep 2
+	sleep 0.5
 
 done
